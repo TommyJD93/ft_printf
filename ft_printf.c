@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 16:24:35 by tterribi          #+#    #+#             */
-/*   Updated: 2022/01/31 18:48:45 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:27:04 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-bool	is_upper(const char c)
-{
-	if (c >= 65 && c <= 90)
-		return (true);
-	else
-		return (false);
-}
 
 int	print_char(va_list param)
 {
@@ -27,6 +19,24 @@ int	print_char(va_list param)
 	buffer = va_arg(param, int);
 	ft_putchar_void(buffer);
 	return (1);
+}
+
+int	ft_printstr(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+	{
+		ft_putstr("(null)");
+		return (6);
+	}
+	while (str[i])
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+	return (i);
 }
 
 int	num_len(int num)
@@ -60,13 +70,11 @@ int	flags(const char c, va_list param)
 		return (ft_print_hex(va_arg(param, unsigned int), c));
 	else if (c == '%')
 		return (ft_putchar_int('%'));
-	else if (is_upper(c))
-		return (ft_putchar_int('%'));
 	else
 		return (0);
 }
 
-int	ft_printf(char *a, ...)
+int	ft_printf(const char *a, ...)
 {
 	va_list	params;
 	int		i;
@@ -88,5 +96,5 @@ int	ft_printf(char *a, ...)
 		ft_putchar_void(a[i]);
 		i++;
 	}
-	return (count + 1);
+	return (count);
 }

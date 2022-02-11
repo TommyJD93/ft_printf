@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tterribi <tterribi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tterribi <tterribi@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 17:46:45 by tterribi          #+#    #+#             */
-/*   Updated: 2022/01/31 18:12:37 by tterribi         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:27:31 by tterribi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_print_unsigned(unsigned int n)
 	else
 	{
 		num = ft_uitoa(n);
-		print_length += ft_putstr(num);
+		print_length += ft_printstr(num);
 		free(num);
 	}
 	return (print_length);
@@ -34,6 +34,8 @@ int	ft_putstr(char *str)
 	char	c;
 	int		i;
 
+	if (!str)
+		return (write(1, "(null)", 6));
 	i = 0;
 	while (str[i] != '\0')
 	{
@@ -55,30 +57,19 @@ int	ft_printnbr(int n)
 	free(num);
 	return (len);
 }
-/*
-int	ft_print_hex(unsigned int num, const char format)
-{
-	if (num == 0)
-		return (write(1, "0", 1));
-	else
-		ft_print_hex(num, format);
-	return (hex_len(num));
-}*/
 
-int	ft_print_ptr(unsigned long long num)
+int	ft_print_ptr(unsigned long long ptr)
 {
-//	int	length;
+	int	print_length;
 
-//	length = 0;
-//	length +=
-	write(1, "0x", 2);
-	if (num == 0)
-		//length +=
-		return(write(1, "0", 1));
+	print_length = 0;
+	print_length += write(1, "0x", 2);
+	if (ptr == 0)
+		print_length += write(1, "0", 1);
 	else
-//	{
-		ft_ptr_conv(num);
-//		length += ft_ptr_len(num);
-//	}
-	return (ptr_len(num) + 2);
+	{
+		ft_put_ptr(ptr);
+		print_length += ft_ptr_len(ptr);
+	}
+	return (print_length);
 }
